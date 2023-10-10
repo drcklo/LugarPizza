@@ -1,9 +1,21 @@
 ﻿@page "/"
-
-<PageTitle>Index</PageTitle>
+@using LugarPizza.Models;
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
+@code {
 
+	private Estados State { get; } = new Estados();
+
+    protected override void OnInitialized()
+	{
+		State.Menu.Add(
+		new Pizzas(1, "Pepperoni", 8.99M, NivelesDePicante.Picante));
+		State.Menu.Add(
+		new Pizzas(2, "Margarita", 7.99M, NivelesDePicante.Ninguno));
+		State.Menu.Add(
+		new Pizzas(3, "Diabolo", 9.99M, NivelesDePicante.Caliente));
+	}
+}
