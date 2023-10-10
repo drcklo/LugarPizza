@@ -1,21 +1,47 @@
 ﻿@page "/"
-@using LugarPizza.Models;
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
+<h1>Nuestra Selecci&oacute;n de Pizzas</h1>
+@foreach (var pizza in Estados.Menu.ListaDePizzas)
+{
+	<div class="row">
+		<div class="col">
+			@pizza.Nombre
+		</div>
+		<div class="col text-right">
+			@($"{pizza.Precio:0.00}")
+		</div>
+		<div class="col"></div>
+		<div class="col">
+			<img src="@ImagenDePicante(pizza.NivelesDePicante)"
+				 alt="@pizza.NivelesDePicante" />
+		</div>
+		<div class="col">
+			<button class="btn btn-success pl-4 pr-4"
+			@onclick="@(() => AgregarAlCarrito(pizza))">
+				Agregar
+			</button>
+		</div>
+	</div>
+}
 
 @code {
 
-	private Estados State { get; } = new Estados();
+	private Estados Estados { get; } = new Estados();
 
     protected override void OnInitialized()
 	{
-		State.Menu.Add(
+		Estados.Menu.Add(
 		new Pizzas(1, "Pepperoni", 8.99M, NivelesDePicante.Picante));
-		State.Menu.Add(
+		Estados.Menu.Add(
 		new Pizzas(2, "Margarita", 7.99M, NivelesDePicante.Ninguno));
-		State.Menu.Add(
+		Estados.Menu.Add(
 		new Pizzas(3, "Diabolo", 9.99M, NivelesDePicante.Caliente));
 	}
+
+	private string ImagenDePicante(NivelesDePicante nivelesDePicante)
+	=> $"images/{nivelesDePicante.ToString().ToLower()}.png";
+
+	private void AgregarAlCarrito(Pizzas pizzas)
+	=> Estados.Carrito.Agregar(pizzas.Id);
+
 }
