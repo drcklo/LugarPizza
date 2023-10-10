@@ -1,6 +1,6 @@
 ﻿using LugarPizza.Models;
 
-namespace LugarPizza.Menu
+namespace LugarPizza.DAL
 {
     public class Menu
     {
