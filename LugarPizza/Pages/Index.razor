@@ -25,17 +25,57 @@
 	</div>
 }
 
-@code {
+@if (Estados.Carrito.Ordenes.Any())
+{
+	<h1 class="">Tu orden actual</h1>
+	@foreach (var (pizza, pos) in Estados.Carrito.Ordenes.Select(
+						(id, pos) => (Estados.Menu.GetPizza(id), pos)))
+	{
+		<div class="row mb-2">
+			<div class="col">
+				@pizza.Nombre
+			</div>
+			<div class="col text-right">
+				@($"{pizza.Precio:0.00}")
+			</div>
+			<div class="col"></div>
+			<div class="col"></div>
+			<div class="col">
+				<button class="btn btn-danger"
+				@onclick="@(() => EliminarDelCarrito(pos))">
+					Eliminar
+				</button>
+			</div>
+		</div>
+	}
+
+	<div class="row">
+	<div class="col"></div>
+	<div class="col"><hr /></div>
+	<div class="col"> </div>
+	<div class="col"> </div>
+	</div>
+	<div class="row">
+	<div class="col"> Total:</div>
+	 <div class="col text-right font-weight-bold"> @($"{Estados.PrecioTotal:0.00}")
+	 <div class="col"> </div>
+	 <div class="col"> </div>
+	 <div class="col"> </div>
+	</div></div>
+}
+
+
+@code{
 
 	private Estados Estados { get; } = new Estados();
 
     protected override void OnInitialized()
 	{
-		Estados.Menu.Add(
+		Estados.Menu.AgregarPizza(
 		new Pizzas(1, "Pepperoni", 8.99M, NivelesDePicante.Picante));
-		Estados.Menu.Add(
+		Estados.Menu.AgregarPizza(
 		new Pizzas(2, "Margarita", 7.99M, NivelesDePicante.Ninguno));
-		Estados.Menu.Add(
+		Estados.Menu.AgregarPizza(
 		new Pizzas(3, "Diabolo", 9.99M, NivelesDePicante.Caliente));
 	}
 
@@ -44,5 +84,8 @@
 
 	private void AgregarAlCarrito(Pizzas pizzas)
 	=> Estados.Carrito.Agregar(pizzas.Id);
+
+		private void EliminarDelCarrito(int pos)
+		=> Estados.Carrito.RemoveAt(pos);
 
 }
