@@ -72,26 +72,50 @@
 @* División *@
 
 <h1>Por favor ingresa tus datos</h1>
-<fieldset>
- <div class="row mb-2">
- <label class="col-2" for="nombre">Nombre:</label>
- <input class="col-6" id="nombre"
- @bind="Estados.Carrito.Clientes.Nombre" />
- </div>
- <div class="row mb-2">
- <label class="col-2" for="calle">Calle:</label>
-		<input class="col-6" id="calle"
-		@bind="Estados.Carrito.Clientes.Calle" />
-	</div>
-	<div class="row mb-2">
-		<label class="col-2" for="ciudad">Ciudad:</label>
-		<input class="col-6" id="ciudad"
-		@bind="Estados.Carrito.Clientes.Ciudad" />
-	</div>
-	<button @onclick="PlaceOrder">Pagar</button>
-</fieldset>
 
-@Estados.ToJson()
+<EditForm Model="@Estados.Carrito.Clientes" OnValidSubmit="RealizarOrden">
+<DataAnnotationsValidator />
+	<fieldset>
+		<div class="row mb-2">
+			<label class="col-2" for="name">Nombre:</label>
+			<InputText class="form-control col-6"
+				@bind-Value="@Estados.Carrito.Clientes.Nombre" />
+		</div>
+		<div class="row mb-2">
+			<div class="col-6 offset-2">
+			<ValidationMessage For="@(() => Estados.Carrito.Clientes.Nombre)" />
+			</div>
+		</div>
+		<div class="row mb-2">
+			<label class="col-2" for="street">Calle:</label>
+			<InputText class="form-control col-6"
+				@bind-Value="@Estados.Carrito.Clientes.Calle" />
+		</div>
+		<div class="row mb-2">
+			<div class="col-6 offset-2">
+			<ValidationMessage For="@(() => Estados.Carrito.Clientes.Calle)" />
+			</div>
+		</div>
+		<div class="row mb-2">
+			<label class="col-2" for="city">Ciudad:</label>
+			<InputText class="form-control col-6"
+			@bind-Value="@Estados.Carrito.Clientes.Ciudad" />
+		</div>
+		<div class="row mb-2">
+			<div class="col-6 offset-2">
+				<ValidationMessage For="@(() => Estados.Carrito.Clientes.Ciudad)" />
+			</div>
+		</div>
+		<div class="row mb-2">
+			<button class="mx-auto w-25 btn btn-success"
+			@onclick="RealizarOrden">
+				Pagar
+			</button>
+		</div>
+	</fieldset>
+</EditForm>
+
+@* @Estados.ToJson() *@
 
 @code{
 
@@ -116,7 +140,7 @@
 	private void EliminarDelCarrito(int pos)
 	=> Estados.Carrito.RemoveAt(pos);
 
-	private void PlaceOrder()
+	private void RealizarOrden()
 	{
 		Console.WriteLine("Placing order");
 	}
