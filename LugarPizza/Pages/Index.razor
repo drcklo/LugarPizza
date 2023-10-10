@@ -1,5 +1,6 @@
 ﻿@page "/"
 
+
 <h1><b>Nuestra Selecci&oacute;n de Pizzas</b></h1>
 @foreach (var pizza in Estados.Menu.ListaDePizzas)
 {
@@ -8,7 +9,7 @@
 			<h2>@pizza.Nombre</h2>
 		</div>
 		<div class="col text-right">
-			@($"{pizza.Precio:0.00}") $
+			<h2>@($"{pizza.Precio:0.00}") $</h2>
 		</div>
 		<div class="col"></div>
 		<div class="col">
@@ -25,18 +26,20 @@
 	</div>
 }
 
+@* División *@
+
 @if (Estados.Carrito.Ordenes.Any())
 {
-	<h1 class="">Tu orden actual</h1>
+	<h1 class=""> <b>Tu orden actual</b></h1>
 	@foreach (var (pizza, pos) in Estados.Carrito.Ordenes.Select(
 						(id, pos) => (Estados.Menu.GetPizza(id), pos)))
 	{
 		<div class="row mb-2">
 			<div class="col">
-				@pizza.Nombre
+				<h2>@pizza.Nombre</h2>
 			</div>
 			<div class="col text-right">
-				@($"{pizza.Precio:0.00}")
+				<h2>@($"{pizza.Precio:0.00}")</h2>
 			</div>
 			<div class="col"></div>
 			<div class="col"></div>
@@ -50,20 +53,45 @@
 	}
 
 	<div class="row">
-	<div class="col"></div>
-	<div class="col"><hr /></div>
-	<div class="col"> </div>
-	<div class="col"> </div>
+		<div class="col"></div>
+		<div class="col"><hr /></div>
+		<div class="col"> </div>
+		<div class="col"> </div>
 	</div>
+	<h2>
 	<div class="row">
-	<div class="col"> Total:</div>
-	 <div class="col text-right font-weight-bold"> @($"{Estados.PrecioTotal:0.00}")
-	 <div class="col"> </div>
-	 <div class="col"> </div>
-	 <div class="col"> </div>
-	</div></div>
+		<div class="col"> Total:</div>
+		<div class="col text-right font-weight-bold"> @($"{Estados.PrecioTotal:0.00}")</div>
+		<div class="col"> </div>
+		<div class="col"> </div>
+		<div class="col"> </div>
+	</div>
+	</h2>
 }
 
+@* División *@
+
+<h1>Por favor ingresa tus datos</h1>
+<fieldset>
+ <div class="row mb-2">
+ <label class="col-2" for="nombre">Nombre:</label>
+ <input class="col-6" id="nombre"
+ @bind="Estados.Carrito.Clientes.Nombre" />
+ </div>
+ <div class="row mb-2">
+ <label class="col-2" for="calle">Calle:</label>
+		<input class="col-6" id="calle"
+		@bind="Estados.Carrito.Clientes.Calle" />
+	</div>
+	<div class="row mb-2">
+		<label class="col-2" for="ciudad">Ciudad:</label>
+		<input class="col-6" id="ciudad"
+		@bind="Estados.Carrito.Clientes.Ciudad" />
+	</div>
+	<button @onclick="PlaceOrder">Pagar</button>
+</fieldset>
+
+@Estados.ToJson()
 
 @code{
 
@@ -85,7 +113,12 @@
 	private void AgregarAlCarrito(Pizzas pizzas)
 	=> Estados.Carrito.Agregar(pizzas.Id);
 
-		private void EliminarDelCarrito(int pos)
-		=> Estados.Carrito.RemoveAt(pos);
+	private void EliminarDelCarrito(int pos)
+	=> Estados.Carrito.RemoveAt(pos);
+
+	private void PlaceOrder()
+	{
+		Console.WriteLine("Placing order");
+	}
 
 }
