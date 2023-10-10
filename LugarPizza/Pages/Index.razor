@@ -1,19 +1,20 @@
 ﻿@page "/"
 
-<h1>Nuestra Selecci&oacute;n de Pizzas</h1>
+<h1><b>Nuestra Selecci&oacute;n de Pizzas</b></h1>
 @foreach (var pizza in Estados.Menu.ListaDePizzas)
 {
 	<div class="row">
 		<div class="col">
-			@pizza.Nombre
+			<h2>@pizza.Nombre</h2>
 		</div>
 		<div class="col text-right">
-			@($"{pizza.Precio:0.00}")
+			@($"{pizza.Precio:0.00}") $
 		</div>
 		<div class="col"></div>
 		<div class="col">
 			<img src="@ImagenDePicante(pizza.NivelesDePicante)"
-				 alt="@pizza.NivelesDePicante" />
+				 alt="@pizza.NivelesDePicante" 
+				 class="img-thumbnail img-fluid"/>
 		</div>
 		<div class="col">
 			<button class="btn btn-success pl-4 pr-4"
@@ -39,7 +40,7 @@
 	}
 
 	private string ImagenDePicante(NivelesDePicante nivelesDePicante)
-	=> $"images/{nivelesDePicante.ToString().ToLower()}.png";
+	=> $"Imagenes/{nivelesDePicante.ToString().ToLower()}.png";
 
 	private void AgregarAlCarrito(Pizzas pizzas)
 	=> Estados.Carrito.Agregar(pizzas.Id);
