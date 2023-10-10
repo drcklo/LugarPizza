@@ -40,7 +40,7 @@
 	}
 
 	private string ImagenDePicante(NivelesDePicante nivelesDePicante)
-	=> $"Imagenes/{nivelesDePicante.ToString().ToLower()}.png";
+	=> $"{nivelesDePicante.ToString().ToLower()}.png";
 
 	private void AgregarAlCarrito(Pizzas pizzas)
 	=> Estados.Carrito.Agregar(pizzas.Id);
